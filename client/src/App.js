@@ -46,12 +46,16 @@ const App = (props) => {
           deployedNetwork && deployedNetwork.address
         );
 
-        await node.pubsub.subscribe("main-room", () => {});
+        await node.pubsub.subscribe("main-room", (msg) => {
+          console.log(msg.data);
+        });
         const peerIds = await node.pubsub.peers("main-room");
         console.log("From pubsub stuff:", peerIds);
 
         const topics = await node.pubsub.ls();
         console.log("Topics you are subscribed to:", topics);
+
+        await node.pubsub.publish("main-room", "Hey dude, pubsub is working");
 
         setWeb3(web3);
         setAccounts(accounts);
