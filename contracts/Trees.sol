@@ -1,6 +1,6 @@
 pragma solidity >=0.4.0 <0.9.0;
 
-import "client/node_modules/@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
+import "../client/node_modules/@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 
 contract GameLogic is ERC1155 {
     uint256 public constant GOLD = 0;
@@ -15,19 +15,19 @@ contract GameLogic is ERC1155 {
         _mint(msg.sender, GOLD, 1, "");
     }
 
-    function goldAward() public {
+    function silverAward() public {
         _mint(msg.sender, SILVER, 1, "");
     }
 
-    function goldAward() public {
+    function bronzeAward() public {
         _mint(msg.sender, BRONZE, 1, "");
     }
 
     function giveAccessSecondLvl() public {
-        accessToSecondLvl[msg.sender] = 1;
+        accessToSecondLvl[msg.sender] = true;
     }
 
     function giveAccessThirdLvl() public {
-        accessToThirdLvl[msg.sender] = 1;
+        accessToThirdLvl[msg.sender] = true;
     }
 }
