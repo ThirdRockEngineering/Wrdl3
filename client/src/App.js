@@ -46,10 +46,10 @@ const App = (props) => {
           deployedNetwork && deployedNetwork.address
         );
 
-        await node.pubsub.subscribe("main-room", (msg) => {
+        await node.pubsub.subscribe("lobby", (msg) => {
           console.log(msg.data);
         });
-        const peerIds = await node.pubsub.peers("main-room");
+        const peerIds = await node.pubsub.peers("lobby");
         console.log("From pubsub stuff:", peerIds);
 
         const topics = await node.pubsub.ls();
@@ -71,6 +71,11 @@ const App = (props) => {
     })();
   }, []);
 
+  const handlePeers = async () => {
+    const peerIds = await ipfsNode.pubsub.peers("lobby");
+    console.log("From pubsub stuff:", peerIds);
+  };
+
   useEffect(() => {
     runExample();
   }, [accounts, contract]);
@@ -91,6 +96,8 @@ const App = (props) => {
         Try changing the value stored on <strong>line 42</strong> of App.js.
       </p>
       <div>The stored value is: {storageValue}</div>
+
+      <button onClick={handlePeers}>Peers</button>
     </div>
   );
 };
