@@ -1,6 +1,6 @@
 import React, { useState, UseEffect, useEffect } from "react";
 import SimpleStorageContract from "./contracts/SimpleStorage.json";
-import AssetContract from "./contracts/Asset.json";
+import Wrdl3Contract from "./contracts/Wrdl3.json";
 import getWeb3 from "./getWeb3";
 import Node from "./ipfs";
 
@@ -59,9 +59,9 @@ const App = (props) => {
           SimpleStorageContract.abi,
           deployedNetwork && deployedNetwork.address
         );
-        deployedNetwork = AssetContract.networks[networkId];
+        deployedNetwork = Wrdl3Contract.networks[networkId];
         const game = new web3.eth.Contract(
-          AssetContract.abi,
+          Wrdl3Contract.abi,
           deployedNetwork && deployedNetwork.address
         );
         setWeb3(web3);

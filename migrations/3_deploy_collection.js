@@ -1,5 +1,5 @@
-const Asset = artifacts.require("Asset");
+const Wrdl3 = artifacts.require("Wrdl3");
 
 module.exports = function (deployer) {
-  deployer.deploy(Asset);
+  deployer.deploy(Wrdl3);
 };
