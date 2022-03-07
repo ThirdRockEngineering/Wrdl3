@@ -71,13 +71,16 @@ const App = (props) => {
     })();
   }, []);
 
+  const [peers, setPeers] = useState('none')
   const handlePeers = async () => {
     const peerIds = await ipfsNode.pubsub.peers("lobby");
-    console.log("From pubsub stuff:", peerIds);
+    setPeers(peerIds)
+    console.log(peerIds)
+    // console.log("From pubsub stuff:", peerIds);
   };
 
   useEffect(() => {
-    runExample();
+    // runExample();
   }, [accounts, contract]);
 
   if (!web3) {
@@ -97,7 +100,8 @@ const App = (props) => {
       </p>
       <div>The stored value is: {storageValue}</div>
 
-      <button onClick={handlePeers}>Peers</button>
+      <button onClick={e => handlePeers(e)}>Peers</button>
+      <p>{`these are peers: ${peers}`}</p>
     </div>
   );
 };
