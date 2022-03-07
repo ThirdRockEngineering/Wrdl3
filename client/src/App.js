@@ -1,4 +1,4 @@
-import React, { useState, UseEffect, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import SimpleStorageContract from "./contracts/SimpleStorage.json";
 import getWeb3 from "./getWeb3";
 import Node from "./ipfs";
@@ -33,7 +33,7 @@ const App = (props) => {
 
         // Get ipfs node instance
 
-        // const node = await Node;
+        const node = await Node;
 
         // Use web3 to get the user's accounts.
         const accounts = await web3.eth.getAccounts();
@@ -45,10 +45,22 @@ const App = (props) => {
           SimpleStorageContract.abi,
           deployedNetwork && deployedNetwork.address
         );
+
+        await node.pubsub.subscribe("lobby", (msg) => {
+          console.log(msg.data);
+        });
+        const peerIds = await node.pubsub.peers("lobby");
+        console.log("From pubsub stuff:", peerIds);
+
+        const topics = await node.pubsub.ls();
+        console.log("Topics you are subscribed to:", topics);
+
+        await node.pubsub.publish("main-room", "Hey dude, pubsub is working");
+
         setWeb3(web3);
         setAccounts(accounts);
         setContract(instance);
-        // setIpfsNode(node);
+        setIpfsNode(node);
       } catch (error) {
         // Catch any errors for any of the above operations.
         alert(
@@ -59,8 +71,16 @@ const App = (props) => {
     })();
   }, []);
 
+  const [peers, setPeers] = useState('none')
+  const handlePeers = async () => {
+    const peerIds = await ipfsNode.pubsub.peers("lobby");
+    setPeers(peerIds)
+    console.log(peerIds)
+    // console.log("From pubsub stuff:", peerIds);
+  };
+
   useEffect(() => {
-    runExample();
+    // runExample();
   }, [accounts, contract]);
 
   if (!web3) {
@@ -79,6 +99,9 @@ const App = (props) => {
         Try changing the value stored on <strong>line 42</strong> of App.js.
       </p>
       <div>The stored value is: {storageValue}</div>
+
+      <button onClick={e => handlePeers(e)}>Peers</button>
+      <p>{`these are peers: ${peers}`}</p>
     </div>
   );
 };
