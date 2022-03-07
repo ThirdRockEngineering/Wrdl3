@@ -1,25 +1,14 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.4.0 <0.9.0;
 
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "@imtbl/imx-contracts/contracts/Mintable.sol";
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
-import "@openzeppelin/contracts/utils/Counters.sol";
+import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 
-contract Asset is ERC721URIStorage, Mintable {
-    using Counters for Counters.Counter;
-    Counters.Counter private _tokenIds;
-
-    string BronzeURI =
-        "https://ipfs.io/ipfs/bafybeifm2bvvfffis6tqwls4qd4bxtqdgo2uobwballv7xczr3goa5gl4m/bronze.jpg";
-    string GoldURI =
-        "https://ipfs.io/ipfs/bafybeifm2bvvfffis6tqwls4qd4bxtqdgo2uobwballv7xczr3goa5gl4m/gold.jpg";
-    string SilverURI =
-        "https://ipfs.io/ipfs/bafybeifm2bvvfffis6tqwls4qd4bxtqdgo2uobwballv7xczr3goa5gl4m/silver.jpg";
-    string lvl2URI =
-        "https://ipfs.io/ipfs/bafybeifm2bvvfffis6tqwls4qd4bxtqdgo2uobwballv7xczr3goa5gl4m/lvl2.png";
-    string lvl3URI =
-        "https://ipfs.io/ipfs/bafybeifm2bvvfffis6tqwls4qd4bxtqdgo2uobwballv7xczr3goa5gl4m/lvl3.png";
+contract Asset is ERC1155 {
+    uint256 public constant Bronze = 2;
+    uint256 public constant Gold = 0;
+    uint256 public constant Silver = 1;
+    uint256 public constant lvl2 = 3;
+    uint256 public constant lvl3 = 4;
 
     mapping(address => bool) lvl2s;
     mapping(address => bool) lvl3s;
@@ -27,92 +16,54 @@ contract Asset is ERC721URIStorage, Mintable {
     mapping(address => uint256) golds;
     mapping(address => uint256) silvers;
 
-    constructor(
-        address _owner,
-        string memory _name,
-        string memory _symbol,
-        address _imx
-    ) ERC721(_name, _symbol) Mintable(_owner, _imx) {}
-
-    function _mintFor(
-        address player,
-        uint256 id,
-        bytes memory blueprint
-    ) internal override {
-        _safeMint(player, id, blueprint);
-    }
+    constructor()
+        ERC1155(
+            "https://ipfs.io/ipfs/bafybeictu2x3l2pavayql77j7qbusr3qpwix27sthll5qwdbssnchi5jei/{id}.json"
+        )
+    {}
 
     //*** MODIFIERS */
 
     modifier level2(address player) {
-        require(lvl2s[player]);
+        require(balanceOf(player, lvl2) > 0);
         _;
     }
 
     modifier level3(address player) {
-        require(lvl3s[player]);
+        require(balanceOf(player, lvl3) > 0);
         _;
     }
 
     modifier enoughForLvl2(address player) {
-        require(bronzes[player] == 10);
+        require(balanceOf(player, Bronze) >= 10);
         _;
     }
 
     modifier enoughForLvl3(address player) {
-        require(bronzes[player] == 20);
-        require(silvers[player] == 10);
+        require(balanceOf(player, lvl2) > 0);
+        require(balanceOf(player, Bronze) >= 20);
+        require(balanceOf(player, Silver) >= 15);
         _;
     }
 
     //*** IN-GAME STUFF */
     function awardBronze(address player) public {
-        uint256 newItemId = _tokenIds.current();
-
-        _tokenIds.increment();
-        _mintFor(player, newItemId, "");
-        _setTokenURI(newItemId, BronzeURI);
-
-        bronzes[player]++;
+        _mint(player, Bronze, 1, "");
     }
 
     function awardGold(address player) public level3(player) {
-        uint256 newItemId = _tokenIds.current();
-
-        _tokenIds.increment();
-        _mintFor(player, newItemId, "");
-        _setTokenURI(newItemId, GoldURI);
-
-        golds[player]++;
+        _mint(player, Gold, 1, "");
     }
 
     function awardSilver(address player) public level2(player) {
-        uint256 newItemId = _tokenIds.current();
-
-        _tokenIds.increment();
-        _mintFor(player, newItemId, "");
-        _setTokenURI(newItemId, SilverURI);
-
-        silvers[player]++;
+        _mint(player, Silver, 1, "");
     }
 
     function lvl2Achieve(address player) public enoughForLvl2(player) {
-        uint256 newItemId = _tokenIds.current();
-
-        _tokenIds.increment();
-        _mintFor(player, newItemId, "");
-        _setTokenURI(newItemId, lvl2URI);
-
-        lvl2s[player] = true;
+        _mint(player, lvl2, 1, "");
     }
 
     function lvl3Achieve(address player) public enoughForLvl2(player) {
-        uint256 newItemId = _tokenIds.current();
-
-        _tokenIds.increment();
-        _mintFor(player, newItemId, "");
-        _setTokenURI(newItemId, lvl3URI);
-
-        lvl3s[player] = true;
+        _mint(player, lvl3, 1, "");
     }
 }

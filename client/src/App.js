@@ -1,5 +1,6 @@
 import React, { useState, UseEffect, useEffect } from "react";
 import SimpleStorageContract from "./contracts/SimpleStorage.json";
+import AssetContract from "./contracts/Asset.json";
 import getWeb3 from "./getWeb3";
 import Node from "./ipfs";
 
@@ -10,6 +11,7 @@ const App = (props) => {
   const [web3, setWeb3] = useState(null);
   const [accounts, setAccounts] = useState(null);
   const [contract, setContract] = useState(null);
+  const [game, setGame] = useState(null);
   const [ipfsNode, setIpfsNode] = useState(null);
 
   const runExample = async () => {
@@ -22,6 +24,18 @@ const App = (props) => {
 
       // Update state with the result.
       setStorageValue(response);
+    }
+  };
+
+  const awardBronze = async () => {
+    if (game && accounts.length) {
+      // Stores a given value, 5 by default.
+      await game.methods.awardBronze(accounts[0]).send({ from: accounts[0] });
+
+      // Get the value from the contract to prove it worked.
+      const response = await game.methods.balanceOf(accounts[0], 2).call();
+      // Update state with the result.
+      console.log(response);
     }
   };
 
@@ -40,14 +54,20 @@ const App = (props) => {
 
         // Get the contract instance.
         const networkId = await web3.eth.net.getId();
-        const deployedNetwork = SimpleStorageContract.networks[networkId];
+        let deployedNetwork = SimpleStorageContract.networks[networkId];
         const instance = new web3.eth.Contract(
           SimpleStorageContract.abi,
+          deployedNetwork && deployedNetwork.address
+        );
+        deployedNetwork = AssetContract.networks[networkId];
+        const game = new web3.eth.Contract(
+          AssetContract.abi,
           deployedNetwork && deployedNetwork.address
         );
         setWeb3(web3);
         setAccounts(accounts);
         setContract(instance);
+        setGame(game);
         // setIpfsNode(node);
       } catch (error) {
         // Catch any errors for any of the above operations.
@@ -79,6 +99,7 @@ const App = (props) => {
         Try changing the value stored on <strong>line 42</strong> of App.js.
       </p>
       <div>The stored value is: {storageValue}</div>
+      <button onClick={awardBronze}>Get Bronze</button>
     </div>
   );
 };
