@@ -3,7 +3,7 @@ pragma solidity >=0.4.0 <0.9.0;
 
 import "./Wrdl3Items.sol";
 
-contract Wrdl3BronzeLetters is Wrdl3Items {
+contract Wrdl3SilverLetters is Wrdl3Items {
     uint8 public constant A_Silver = 31;
     uint8 public constant B_Silver = 32;
     uint8 public constant C_Silver = 33;

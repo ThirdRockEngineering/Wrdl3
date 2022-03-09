@@ -3,7 +3,7 @@ pragma solidity >=0.4.0 <0.9.0;
 
 import "./Wrdl3Items.sol";
 
-contract Wrdl3BronzeLetters is Wrdl3Items {
+contract Wrdl3GoldLetters is Wrdl3Items {
     uint8 public constant A_Gold = 57;
     uint8 public constant B_Gold = 58;
     uint8 public constant C_Gold = 59;
@@ -34,7 +34,7 @@ contract Wrdl3BronzeLetters is Wrdl3Items {
     uint8 public constant Y_Gold = 81;
     uint8 public constant Z_Gold = 82;
 
-    function buySilverLetters(
+    function buyGoldLetters(
         address _player,
         uint8 _letterId,
         uint256 _amount

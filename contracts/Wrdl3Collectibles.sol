@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 
-contract GameItem is ERC721URIStorage {
+contract Wrdl3GameItem is ERC721URIStorage {
     string public collectionURI = "https://ipfs.io/ipfs/{HASH}";
     address private admin;
 
@@ -36,5 +36,9 @@ contract GameItem is ERC721URIStorage {
 
     function changeCollectionURI(string memory _newURI) public onlyAdmin {
         collectionURI = _newURI;
+    }
+
+    function _ownerOf(uint256 tokenId) public view returns (address) {
+        return ownerOf(tokenId);
     }
 }
