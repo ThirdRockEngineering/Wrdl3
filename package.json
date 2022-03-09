@@ -21,6 +21,7 @@
   "homepage": "https://github.com/ThirdRockEngineering/Wrdl3#readme",
   "dependencies": {
     "@imtbl/imx-contracts": "^1.0.1",
-    "@openzeppelin/contracts": "^4.5.0"
+    "@openzeppelin/contracts": "^4.5.0",
+    "axios": "^0.26.0"
   }
 }
