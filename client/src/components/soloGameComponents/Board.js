@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
-import Box from "./Box";
+import LetterBox from "./Box";
 import words from "../words";
+import Box from '@mui/material/Box'
+import Grid from '@mui/material/Grid'
 
 const correct = "CHANT";
 let defaulBoard = [];
@@ -108,20 +110,39 @@ function Board(props) {
   }, [changed]);
 
   return (
-    <div className="px-10 py-5 grid gap-y-1 items-center w-100 justify-center">
+    // <div className="px-10 py-5 grid gap-y-1 items-center w-100 justify-center">
+    <Box sx={{
+      alignSelf: "center",
+      width: "25rem",
+      pl : "2.5rem",
+      pr: "2.5rem",
+      pt: "1.25rem",
+      pb: "1.25rem",
+      rowGap: "0.25rem",
+      alignItems: 'center',
+      justifyContent: 'center',
+      border: '1px solid black'
+    }}>
       {board.map((row, key) => {
         return (
-          <div key={key} className="flex gap-1 w-fit">
+          // <div key={key} className="flex gap-1 w-fit">
+          <Box sx={{
+            gap: "0.25rem",
+            width: "fit-content",
+            display: "flex"
+          }}>
             {row.map((value, key) => (
-              <Box key={key} value={value[0]} state={value[1]} pos={key} />
+              <LetterBox key={key} value={value[0]} state={value[1]} pos={key} />
             ))}
-          </div>
+            </Box>
+          // </div>
         );
       })}
       <div className=" grid place-items-center h-8 font-bold dark:text-white">
         {lost||win ? message : ""}
       </div>
-    </div>
+      </Box>
+    // </div>
   );
 }
 

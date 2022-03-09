@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import BackspaceIcon from "@mui/icons-material/Backspace";
 
-function Box(props) {
+function LetterBox(props) {
   const [state, setState] = useState("text-black border-2 border-gray-300 dark:bg-zinc-800 dark:text-white rounded");
 
   useEffect(() => {
@@ -26,4 +26,4 @@ function Box(props) {
   );
 }
 
-export default Box;
+export default LetterBox;

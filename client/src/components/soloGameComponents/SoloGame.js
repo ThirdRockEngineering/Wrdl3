@@ -7,6 +7,9 @@ import Modal from './Modal';
 import NavBar from './NavBar';
 import styles from './style.module.css'
 
+import Box from "@mui/material/Box"
+import Paper from "@mui/material/Paper"
+
 
 function SoloGame (props) {
   const [letter, setLetter] = useState();
@@ -57,7 +60,13 @@ function SoloGame (props) {
         </Modal>
       )}
       {error && <Error>{error}</Error>}
-      <div className={styles.game}>
+      {/* <div className={styles.game}> */}
+      <Box component={Paper}
+        sx={{
+          width: "80vw",
+          display: "flex",
+          flexDirection: "column"
+        }} >
 
         <NavBar help={setHelp} darkness={setDark} dark={dark} />
         <hr />
@@ -68,7 +77,8 @@ function SoloGame (props) {
           error={setError}
         />
         <KeyBoard keyHandler={keyHandler} letters={letters} changed={changed} />
-      </div>
+      </Box>
+      {/* </div> */}
     </>
   );
 }
