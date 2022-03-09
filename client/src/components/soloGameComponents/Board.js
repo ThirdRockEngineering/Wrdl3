@@ -140,9 +140,16 @@ function Board(props) {
           // </div>
         );
       })}
-      <div className=" grid place-items-center h-8 font-bold dark:text-white">
-        {lost||win ? message : ""}
-      </div>
+      {/* <div className=" grid place-items-center h-8 font-bold dark:text-white"> */}
+        <Box sx={{
+          display: "grid",
+          placeItems: "center",
+          fontWeight: "700",
+          height: "2rem",
+        }}>
+          {lost||win ? message : ""}
+        {/* </div> */}
+        </Box>
       </Box>
     // </div>
   );
