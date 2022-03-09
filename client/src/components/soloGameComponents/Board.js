@@ -112,6 +112,7 @@ function Board(props) {
   return (
     // <div className="px-10 py-5 grid gap-y-1 items-center w-100 justify-center">
     <Box sx={{
+      display: "grid",
       alignSelf: "center",
       width: "25rem",
       pl : "2.5rem",
@@ -129,7 +130,8 @@ function Board(props) {
           <Box sx={{
             gap: "0.25rem",
             width: "fit-content",
-            display: "flex"
+            display: "flex",
+            alignContent: "center"
           }}>
             {row.map((value, key) => (
               <LetterBox key={key} value={value[0]} state={value[1]} pos={key} />
