@@ -1,4 +1,4 @@
-import  * as IPFS from "ipfs-core";
+import * as IPFS from "ipfs-core";
 
 const main = async () => {
   const ipfs = await IPFS.create({
@@ -13,6 +13,9 @@ const main = async () => {
         Swarm: [
           "/dns4/star.thedisco.zone/tcp/9090/wss/p2p-webrtc-star",
           "/dns6/star.thedisco.zone/tcp/9090/wss/p2p-webrtc-star",
+          "/dns4/wrtc-star1.par.dwebops.pub/tcp/443/wss/p2p-webrtc-star/",
+          "/dns4/wrtc-star2.sjc.dwebops.pub/tcp/443/wss/p2p-webrtc-star/",
+          "/dns4/webrtc-star.discovery.libp2p.io/tcp/443/wss/p2p-webrtc-star/",
         ],
       },
     },
