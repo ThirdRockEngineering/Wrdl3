@@ -28,7 +28,7 @@ function Key(props) {
   const [state, setState] = useState(defaultValue)
 
   // const x = props.value.length === 1 ? "w-7 sm:w-10 " : "p-2 sm:p-4 ";
-  const x = props.value.length === 1 ? { width: "1.75rem" } : { padding: "0.5rem" };
+  const x = props.value.length === 1 ? { width: "1rem" } : { padding: "0.5rem" };
   const returnKey = () => {
     props.getKey(props.value);
   };
@@ -67,7 +67,7 @@ function Key(props) {
         minWidth: "none",
     }}
 
-    // onClick={returnKey}
+    onClick={returnKey}
     >
       {props.value === "DEL" ? <BackspaceIcon /> : props.value}
     </Button>

@@ -127,7 +127,9 @@ function Board(props) {
       {board.map((row, key) => {
         return (
           // <div key={key} className="flex gap-1 w-fit">
-          <Box sx={{
+          <Box
+          key={key}
+          sx={{
             gap: "0.25rem",
             width: "fit-content",
             display: "flex",
